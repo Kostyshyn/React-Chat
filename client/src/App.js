@@ -3,8 +3,14 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import moment from 'moment';
 
-const ROOT_URI = 'http:\//192.168.0.119:7000/';
+const ROOT_URI = 'http:\//192.168.1.105:7000/';
 const socket = socketIOClient(ROOT_URI);
+
+const Message = (message, self) => {
+  return (
+    
+  )
+};
 
 class App extends Component {
 
