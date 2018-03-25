@@ -4,7 +4,7 @@ import moment from 'moment';
 const Message = ({ message, self}) => {
 	return (
 	  <div className={"message-wrap " + ( self ? 'my' : '')}>
-	    <div className="username"><strong>{ message.user }</strong></div>
+	    <div className="message-user">{ message.user }</div>
 	      <div className={ "notification " + ( self ? 'is-primary' : '') } key={ message.message }>
 	      { message.message }
 	      </div>

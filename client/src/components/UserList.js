@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const UserList = ({ users }) => {
+const UserList = ({ clients }) => {
 	return (
 	  <div className="column is-3">
 		<aside className="menu">
@@ -8,7 +8,13 @@ const UserList = ({ users }) => {
 		    	User list
 		  	</p>
 		  	<ul className="menu-list">
-		    	<li><a>Dashboard</a></li>
+		        { clients.map(client => {
+		            return (
+		                <li key={ client.id }>
+		                	<a>{ client.name }</a>
+		                </li>
+		            )
+            	})}
 		  	</ul>
 		</aside>
 	  </div>
