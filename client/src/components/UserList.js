@@ -17,6 +17,24 @@ const UserList = ({ clients }) => {
             	})}
 		  	</ul>
 		</aside>
+		<div className="dropdown is-hoverable">
+		  	<div className="dropdown-trigger">
+		    	<button className="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+		      		<span>User list</span>
+		    	</button>
+		  	</div>
+		  	<div className="dropdown-menu" id="dropdown-menu4" role="menu">
+		    	<div className="dropdown-content">
+		    	{ clients.map(client => {
+		            return (
+		               	<div className="dropdown-item" key={ client.id + '-mobile' }>
+		        			{ client.name }
+		      			</div>
+		            )
+            	})}
+		    	</div>
+		  	</div>
+		</div>
 	  </div>
 	)
 };

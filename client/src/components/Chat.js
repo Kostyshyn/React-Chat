@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import Message from './Message.js';
 
-const ROOT_URI = '192.168.1.105:7000/';
+const ROOT_URI = '192.168.1.103:7000/';
+// const ROOT_URI = 'localhost:7000/';
 const socket = socketIOClient(ROOT_URI);
 
 class Chat extends Component {
@@ -18,9 +19,12 @@ class Chat extends Component {
     this.toggle = this.toggle.bind(this);
     this.join = this.join.bind(this);
     this.send = this.send.bind(this);
+    this.sendByEnter = this.sendByEnter.bind(this);
+    this.scroll = this.scroll.bind(this);
 
     socket.on('receive.message', (message) => {
       	this.setState({ messages: this.state.messages.concat(message) });
+        this.scroll();
     });
 
     socket.on('user', (clients) => {
@@ -48,6 +52,11 @@ class Chat extends Component {
   toggle(){
   	this.setState({ user: !this.state.user });
   }
+  scroll(){
+    if (this.messagesContainer && this.messagesContainerWrap){
+      this.messagesContainerWrap.scrollTop = this.messagesContainer.offsetHeight;
+    }
+  }
   send(e){
   	e.preventDefault();
   	let message = e.target.message.value.trim();
@@ -57,30 +66,46 @@ class Chat extends Component {
         	message: message,
         	date: new Date()
       	});
+      e.target.message.value = '';
   	}
   }
-  componentDidMount(){
-
+  sendByEnter(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      let message = e.target.value.trim();
+      if (this.state.user && message){
+        socket.emit('message', {
+            user: this.state.client,
+            message: message,
+            date: new Date()
+          });
+        e.target.value = '';
+      }
+    }
   }
+  componentDidMount(){  }
   render() {
     return (
 	  <div className="column is-9 no-b-padding">
 	  	<div className="chat">
 	  	{	this.state.user ? (
 		  		<div>
-			  		<div className="messages-list">
-        			   	{ this.state.messages.map(message => {
-        			    	const self = this.state.client === message.user;
-        			     	return ( <Message message={ message } self={ self } key={ Date.now() } />)
-        			   	})}
-			  		</div>
+            <div className="messages-list" ref={ (el) => { this.messagesContainerWrap = el; } }>
+  			  		<div className="messages-list-wrap" ref={ (el) => { this.messagesContainer = el; } }>
+          			   	{ this.state.messages.map((message, i) => {
+          			    	const self = this.state.client === message.user;
+          			     	return ( <Message message={ message } self={ self } key={ i }/>)
+          			   	})}
+  			  		</div>
+            </div>
 			  		<form onSubmit={ this.send }>
 				  		<div className="field is-grouped message-input">
 						  	<div className="control is-expanded">
 						    	<textarea 
 						    		className="textarea" 
 						    		placeholder="..."
-						    		name="message">
+						    		name="message"
+                    onKeyPress={ this.sendByEnter }>
 						    	</textarea>
 							</div>
 							<div className="control">

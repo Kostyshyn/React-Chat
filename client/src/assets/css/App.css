@@ -1,3 +1,6 @@
+body {
+  /*overflow-x: hidden;*/
+}
 .chat {
   border-right: 1px solid #c1c1c1;
   border-left: 1px solid #c1c1c1;
@@ -8,33 +11,40 @@
   /*padding: 15px;*/
 }
 .messages-list {
-  height: calc(100vh - 162px);
+  height: calc(100vh - 142px);
   border-bottom: 1px solid #c1c1c1;
+  overflow-y: scroll;
+}
+.messages-list-wrap {
   padding: 15px;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
 }
 .message-wrap {
-  clear: both;
+  /*clear: both;*/
+  padding-bottom: 10px;
+  width: 100%;
 }
 .message-wrap.my {
   text-align: right;
-  float: right;
+  /*float: right;*/
 }
 .message-wrap.my .date {
-  float: left;
-  margin: 13px 10px 0px 0px;
-}
-.message-wrap.my .message-user {
-  margin-right: 10px;
+  /*float: left;*/
 }
 .message-user {
-  margin-left: 10px;
+  /*margin-left: 10px;*/
   font-size: 14px;
   color: hsl(204, 86%, 53%);
+}
+.message {
+  text-align: left;
 }
 .date {
   display: inline-block;
   font-size: 12px;
-  margin: 3px 0px 0px 10px;
+  margin: 0px 0px 0px 10px;
   color: #c1c1c1;
 }
 
@@ -52,18 +62,43 @@
 
 .notification {
   display: inline-block;
-  padding: 10px !important;
+  padding: 5px 10px!important;
   margin-bottom: 0px !important;
 }
 .menu-label {
   padding: 15px 15px 0px 15px;
 }
 .textarea {
-  min-height: 80px !important;
+  min-height: 60px !important;
   max-height: 200px !important;
   resize: none;
 }
 .message-input {
   box-sizing: border-box;
   padding: 15px;
+}
+.dropdown {
+  display: none;
+  width: 100%;
+}
+.dropdown-trigger,
+.dropdown-menu,
+.dropdown-trigger button {
+  width: 100%;
+  border: none;
+}
+.dropdown-trigger button {
+  border-bottom: 1px solid #c1c1c1;
+}
+@media screen and (max-width: 768px){
+  .menu {
+    display: none;
+  }
+  .dropdown {
+    display: block;
+  }
+  .chat {
+    border: none;
+    height: calc(100vh - 118px);
+  }
 }
