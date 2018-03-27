@@ -1,3 +1,5 @@
+var Message = require('../models/message.js');
+
 module.exports = function(io){
 
 	var users = []; 
@@ -14,7 +16,17 @@ module.exports = function(io){
 		});
 
 		client.on('message', (message) => {
-			io.emit('receive.message', message);
+			Message.create({
+				user: message.user,
+				message: message.message,
+				date: message.date
+			},function(err, message){
+				if (err){
+					throw err;
+				} else {
+					io.emit('receive.message', message);
+				}
+			});
 		});
 
 		client.on('disconnect', () => {
