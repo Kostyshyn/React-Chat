@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import Message from './Message.js';
+import axios from 'axios';
 
-const ROOT_URI = '192.168.1.103:7000/';
+const ROOT_URI = '192.168.0.119:7000/';
 // const ROOT_URI = 'localhost:7000/';
 const socket = socketIOClient(ROOT_URI);
 
@@ -83,7 +84,13 @@ class Chat extends Component {
       }
     }
   }
-  componentDidMount(){  }
+  componentDidMount(){ 
+  	axios.get('http:\//' + ROOT_URI).then(res => {
+  		this.setState({ messages: res.data.messages });
+  	}).catch(err => {
+  		console.err(err);
+  	});
+  }
   render() {
     return (
 	  <div className="column is-9 no-b-padding">
@@ -105,7 +112,7 @@ class Chat extends Component {
 						    		className="textarea" 
 						    		placeholder="..."
 						    		name="message"
-                    onKeyPress={ this.sendByEnter }>
+                    				onKeyPress={ this.sendByEnter }>
 						    	</textarea>
 							</div>
 							<div className="control">
